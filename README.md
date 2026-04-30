@@ -132,14 +132,12 @@ On the offline machine:
 ```bash
 python -m pip install --no-index --find-links bip_utils_offline bip-utils
 
-
-
-python -c "import sys, platform, bip_utils; from bip_utils import Bip39MnemonicGenerator, Bip39WordsNum, Bip39SeedGenerator, Bip44Changes, Bip84, Bip84Coins; m=str(Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)); seed=Bip39SeedGenerator(m).Generate(''); addr=Bip84.FromSeed(seed, Bip84Coins.BITCOIN).Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress(); print('Python executable:', sys.executable); print('Python version:', sys.version.replace('\n',' ')); print('Platform:', platform.platform()); print('bip_utils version:', getattr(bip_utils, '__version__', 'unknown')); print('Generated 12-word mnemonic:', m); print('BIP84 path:', \"m/84'/0'/0'/0/0\"); print('Generated BTC address:', addr); print('Result: bip-utils is installed and working.')"
-
-
-
-
 ```
+
+```bash
+python -c "import sys, platform, bip_utils; from bip_utils import Bip39MnemonicGenerator, Bip39WordsNum, Bip39SeedGenerator, Bip44Changes, Bip84, Bip84Coins; m=str(Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)); seed=Bip39SeedGenerator(m).Generate(''); addr=Bip84.FromSeed(seed, Bip84Coins.BITCOIN).Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT).AddressIndex(0).PublicKey().ToAddress(); print('Python executable:', sys.executable); print('Python version:', sys.version.replace('\n',' ')); print('Platform:', platform.platform()); print('bip_utils version:', getattr(bip_utils, '__version__', 'unknown')); print('Generated 12-word mnemonic:', m); print('BIP84 path:', \"m/84'/0'/0'/0/0\"); print('Generated BTC address:', addr); print('Result: bip-utils is installed and working.')"
+```
+
 
 After installation, the recovery script itself can run without internet access.
 
