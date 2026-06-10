@@ -14,8 +14,9 @@ A mnemonic phrase is not a normal password. It is the master secret for a wallet
 
 For real recovery work:
 
-* run the scripts on a trusted offline machine
 * review the source code before entering a real mnemonic
+* install the required dependency first
+* disconnect from the internet before entering sensitive wallet data
 * do not paste a real mnemonic into websites, chat apps, online notebooks, cloud tools, or AI tools
 * do not run recovery on a VPS, shared computer, remote desktop, or machine you do not fully trust
 * do not store recovered mnemonics in screenshots, cloud storage, browser notes, terminal logs, or chat history
@@ -29,7 +30,7 @@ They generate candidate mnemonics, validate BIP39 checksums, derive addresses, a
 
 They do not:
 
-* connect to the internet
+* connect to the internet during recovery
 * call blockchain explorer APIs
 * upload mnemonic words
 * send wallet data anywhere
@@ -38,9 +39,106 @@ They do not:
 
 The only required Python dependency is:
 
-```bash id="6pzjym"
+```bash id="5tb9sv"
 bip-utils
 ```
+
+## Install
+
+Clone the repository:
+
+```bash id="u0sgzo"
+git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git
+```
+
+Enter the repository:
+
+```bash id="dshzc5"
+cd bip39-bip84-mnemonic-recovery
+```
+
+Install the required dependency:
+
+```bash id="rhrgaa"
+python -m pip install bip-utils
+```
+
+If your system uses `python3` instead of `python`, use:
+
+```bash id="9l6nlf"
+python3 -m pip install bip-utils
+```
+
+## Quick Start
+
+Run the main recovery script:
+
+```bash id="sg4qhq"
+python mnemonic_recovery.py
+```
+
+Or, if your system uses `python3`:
+
+```bash id="2kn0sk"
+python3 mnemonic_recovery.py
+```
+
+## One-Line Install and Run
+
+Linux / macOS:
+
+```bash id="6ey65g"
+git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git && cd bip39-bip84-mnemonic-recovery && python -m pip install bip-utils && python mnemonic_recovery.py
+```
+
+If your system uses `python3`:
+
+```bash id="pv6hgt"
+git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git && cd bip39-bip84-mnemonic-recovery && python3 -m pip install bip-utils && python3 mnemonic_recovery.py
+```
+
+Windows PowerShell:
+
+```powershell id="d8jzk7"
+git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git; cd bip39-bip84-mnemonic-recovery; python -m pip install bip-utils; python mnemonic_recovery.py
+```
+
+If Windows uses the `py` launcher:
+
+```powershell id="1snca8"
+git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git; cd bip39-bip84-mnemonic-recovery; py -m pip install bip-utils; py mnemonic_recovery.py
+```
+
+## Update the Repository
+
+If you already cloned the repository:
+
+```bash id="wgfvdk"
+cd bip39-bip84-mnemonic-recovery
+git pull
+```
+
+## Check Dependency Installation
+
+Basic check:
+
+```bash id="qf5wsc"
+python -c "import bip_utils; print('bip-utils installed successfully')"
+```
+
+If your system uses `python3`:
+
+```bash id="4wktp2"
+python3 -c "import bip_utils; print('bip-utils installed successfully')"
+```
+
+One-line BIP39 / BIP84 test:
+
+```bash id="57x6mg"
+python -c "from bip_utils import Bip39MnemonicGenerator, Bip39WordsNum, Bip39SeedGenerator, Bip44Changes, Bip84, Bip84Coins; m=str(Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)); seed=Bip39SeedGenerator(m).Generate(''); ctx=Bip84.FromSeed(seed, Bip84Coins.BITCOIN).Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT); print('Generated test mnemonic:'); print(m); print(); print('BIP84 test addresses:'); [print(i, ctx.AddressIndex(i).PublicKey().ToAddress()) for i in range(3)]; print(); print('Result: bip-utils BIP39/BIP84 test finished.')"
+```
+
+The generated mnemonic in this test is only for checking that the library works. Do not use it as a real wallet backup.
 
 ## Main Recovery Case
 
@@ -55,7 +153,7 @@ Use `mnemonic_recovery.py` when:
 
 The default derivation path is:
 
-```text id="benrpy"
+```text id="fmd707"
 m/84'/0'/0'/0/index
 ```
 
@@ -63,176 +161,18 @@ The script supports checking an address index range.
 
 For example, it can check:
 
-```text id="wx5rpi"
+```text id="6lselo"
 m/84'/0'/0'/0/0
 m/84'/0'/0'/0/1
 m/84'/0'/0'/0/2
 ...
 ```
 
-## Quick Start
-
-Clone the repository:
-
-```bash id="38t7mv"
-git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git
-cd bip39-bip84-mnemonic-recovery
-```
-
-Create a Python virtual environment:
-
-```bash id="s9pkys"
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-On Windows PowerShell:
-
-```powershell id="a1j98k"
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-Install the required dependency:
-
-```bash id="p6kmxy"
-python -m pip install --upgrade pip
-python -m pip install bip-utils
-```
-
-Run the main recovery script:
-
-```bash id="rbms1y"
-python mnemonic_recovery.py
-```
-
-## One-Line Quick Start
-
-Linux / macOS:
-
-```bash id="3yhx7a"
-git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git && cd bip39-bip84-mnemonic-recovery && python3 -m venv .venv && . .venv/bin/activate && python -m pip install --upgrade pip bip-utils && python mnemonic_recovery.py
-```
-
-Windows PowerShell:
-
-```powershell id="r42g86"
-git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git; cd bip39-bip84-mnemonic-recovery; py -m venv .venv; .\.venv\Scripts\Activate.ps1; python -m pip install --upgrade pip bip-utils; python mnemonic_recovery.py
-```
-
-Without virtual environment:
-
-```bash id="seec0j"
-git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git && cd bip39-bip84-mnemonic-recovery && python -m pip install --user bip-utils && python mnemonic_recovery.py
-```
-
-Using a virtual environment is recommended because it avoids changing your global Python environment.
-
-## One-Line Download and Run
-
-This is useful for quick testing, but for real wallet recovery you should clone the repository, review the source code, and run it offline.
-
-Linux / macOS:
-
-```bash id="dkk49v"
-mkdir bip39-recovery && cd bip39-recovery && python3 -m venv .venv && . .venv/bin/activate && python -m pip install --upgrade pip bip-utils && curl -fsSLO https://raw.githubusercontent.com/wangyifan349/bip39-bip84-mnemonic-recovery/main/mnemonic_recovery.py && python mnemonic_recovery.py
-```
-
-Windows PowerShell:
-
-```powershell id="evja78"
-mkdir bip39-recovery; cd bip39-recovery; py -m venv .venv; .\.venv\Scripts\Activate.ps1; python -m pip install --upgrade pip bip-utils; iwr -OutFile mnemonic_recovery.py https://raw.githubusercontent.com/wangyifan349/bip39-bip84-mnemonic-recovery/main/mnemonic_recovery.py; python mnemonic_recovery.py
-```
-
-Do not use one-line download commands blindly with real mnemonic data. Read the script first.
-
-## Update the Repository
-
-If you already cloned the repository:
-
-```bash id="h9ol1r"
-cd bip39-bip84-mnemonic-recovery
-git pull
-```
-
-If you want to reset your local copy to the latest version and discard local changes:
-
-```bash id="a2atbv"
-cd bip39-bip84-mnemonic-recovery
-git fetch --all
-git reset --hard origin/main
-```
-
-Be careful: `git reset --hard` deletes local modifications.
-
-## Check Your Python and Dependency Installation
-
-Basic check:
-
-```bash id="uwngs5"
-python --version
-python -m pip --version
-python -c "import bip_utils; print('bip-utils installed:', getattr(bip_utils, '__version__', 'unknown'))"
-```
-
-One-line check:
-
-```bash id="qqtyjf"
-python -c "import sys, platform, bip_utils; print('Python:', sys.version.replace('\n', ' ')); print('Platform:', platform.platform()); print('bip-utils:', getattr(bip_utils, '__version__', 'unknown')); print('Result: bip-utils is installed and importable.')"
-```
-
-One-line BIP39 / BIP84 test:
-
-```bash id="hdmpsg"
-python -c "from bip_utils import Bip39MnemonicGenerator, Bip39WordsNum, Bip39SeedGenerator, Bip44Changes, Bip84, Bip84Coins; m=str(Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)); seed=Bip39SeedGenerator(m).Generate(''); ctx=Bip84.FromSeed(seed, Bip84Coins.BITCOIN).Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT); print('Generated test mnemonic:'); print(m); print(); print('BIP84 test addresses:'); [print(i, ctx.AddressIndex(i).PublicKey().ToAddress()) for i in range(3)]; print(); print('Result: bip-utils BIP39/BIP84 test finished.')"
-```
-
-The generated mnemonic in this test is only for checking that the library works. Do not use it as a real wallet backup.
-
-## Offline Installation
-
-For real wallet recovery, it is safer to prepare dependencies on an online machine first, then move everything to an offline machine.
-
-On the online machine:
-
-```bash id="i6mk17"
-git clone https://github.com/wangyifan349/bip39-bip84-mnemonic-recovery.git
-mkdir bip_utils_offline
-python -m pip download --only-binary=:all: --dest bip_utils_offline bip-utils
-```
-
-Copy both of these to the offline machine:
-
-```text id="mvn3cf"
-bip39-bip84-mnemonic-recovery/
-bip_utils_offline/
-```
-
-On the offline machine:
-
-```bash id="s4vrbs"
-cd bip39-bip84-mnemonic-recovery
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --no-index --find-links ../bip_utils_offline bip-utils
-python mnemonic_recovery.py
-```
-
-Windows PowerShell offline example:
-
-```powershell id="y1hnx5"
-cd bip39-bip84-mnemonic-recovery
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --no-index --find-links ..\bip_utils_offline bip-utils
-python mnemonic_recovery.py
-```
-
 ## Usage: Missing Mnemonic Words
 
 Run:
 
-```bash id="zptc7p"
+```bash id="24x068"
 python mnemonic_recovery.py
 ```
 
@@ -247,13 +187,13 @@ The script will ask for:
 
 Example target address:
 
-```text id="xva9sd"
+```text id="1d56sy"
 bc1qqxwmzs7qyatpht84hqmavkag0r3gnalyjxqr9d
 ```
 
 Example mnemonic template:
 
-```text id="dj41jc"
+```text id="phvytq"
 abandon abandon ? abandon abandon abandon abandon abandon abandon abandon abandon ?
 ```
 
@@ -261,21 +201,21 @@ You can separate words with spaces, English commas, or Chinese commas.
 
 These formats are accepted:
 
-```text id="9a3xio"
+```text id="xeah5x"
 abandon abandon ? abandon
 ```
 
-```text id="vebnqg"
+```text id="b1nhtt"
 abandon, abandon, ?, abandon
 ```
 
-```text id="qswl5g"
+```text id="x2d4vr"
 abandon，abandon，？，abandon
 ```
 
 Example candidate words:
 
-```text id="luhbvd"
+```text id="xz08bf"
 about above absent
 ```
 
@@ -300,7 +240,7 @@ If the candidate list is empty, the script tries all 2048 English BIP39 words fo
 11. compares each derived address with the target address
 12. prints the recovered mnemonic if a match is found
 
-The script does not simply compare word combinations blindly. It validates the BIP39 checksum first, which removes most invalid candidate phrases before address derivation.
+The script does not simply compare word combinations blindly. It validates the BIP39 checksum first, which removes many invalid candidate phrases before address derivation.
 
 ## Search Complexity
 
@@ -308,7 +248,7 @@ The number of combinations grows quickly.
 
 If no candidate list is provided:
 
-```text id="p4uev7"
+```text id="fbm6mt"
 1 missing word  = 2,048 combinations
 2 missing words = 4,194,304 combinations
 3 missing words = 8,589,934,592 combinations
@@ -322,13 +262,13 @@ If you remember possible words, use a short candidate list.
 
 Example:
 
-```text id="191fmv"
+```text id="san82d"
 about above absent access
 ```
 
 With 2 unknown positions:
 
-```text id="wvhpk0"
+```text id="q0c7x2"
 4 × 4 = 16 combinations
 ```
 
@@ -350,13 +290,13 @@ Many wallets generate a new receiving address every time you request one.
 
 The first receiving address is usually:
 
-```text id="ugmfpj"
+```text id="nq2xcp"
 m/84'/0'/0'/0/0
 ```
 
 The next ones are:
 
-```text id="a97o9r"
+```text id="hh1hg1"
 m/84'/0'/0'/0/1
 m/84'/0'/0'/0/2
 m/84'/0'/0'/0/3
@@ -393,13 +333,13 @@ This script supports:
 
 Example fixed position input:
 
-```text id="ij72mb"
+```text id="cdsl94"
 3=apple, 12=zoo
 ```
 
 Example adjacent groups:
 
-```text id="q25kba"
+```text id="n2n4gl"
 apple banana; zoo abandon about
 ```
 
@@ -407,7 +347,7 @@ An adjacent group means the words must stay together in that exact order, but th
 
 Run:
 
-```bash id="m7mtj6"
+```bash id="xord4g"
 python mnemonic_order_recovery.py
 ```
 
@@ -424,13 +364,13 @@ Use `bip39_order_recovery.py` only if:
 
 Run:
 
-```bash id="w0qvr1"
+```bash id="v57el5"
 python bip39_order_recovery.py
 ```
 
 Supported modes:
 
-```text id="bqbe0h"
+```text id="0teclf"
 BTC
 ETH
 ZEC
@@ -441,7 +381,7 @@ This script checks only address index `0`.
 
 Supported address checks:
 
-```text id="b8ofor"
+```text id="wfabfv"
 BTC Legacy         1...     m/44'/0'/0'/0/0
 BTC Nested SegWit  3...     m/49'/0'/0'/0/0
 BTC Native SegWit  bc1q...  m/84'/0'/0'/0/0
@@ -462,13 +402,13 @@ Use `lost2mnemonic.py` if:
 
 Run:
 
-```bash id="pqz0t7"
+```bash id="a7xbcs"
 python lost2mnemonic.py
 ```
 
-This script is not mainly interactive. Edit these variables inside the file first:
+This script is configured by editing variables inside the file first:
 
-```python id="pdr69m"
+```python id="1t7ofk"
 MNEMONIC_WORDS = """
 ...
 """.strip().lower().split()
@@ -480,7 +420,7 @@ PASSPHRASE = ""
 
 Supported modes:
 
-```text id="iolhen"
+```text id="fd9m46"
 BTC
 ZEC
 ```
@@ -522,7 +462,7 @@ Missing-word recovery is usually more practical than full order recovery.
 
 For missing words, the search space depends on:
 
-```text id="hsfx1v"
+```text id="simc8w"
 candidate_count ^ missing_word_count
 ```
 
@@ -530,7 +470,7 @@ For order recovery, the search space may be factorial.
 
 For 12 unique words:
 
-```text id="76tdac"
+```text id="b4d6wf"
 12! = 479,001,600 possible orders
 ```
 
