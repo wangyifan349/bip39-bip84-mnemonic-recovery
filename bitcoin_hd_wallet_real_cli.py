@@ -4,7 +4,8 @@
 bitcoin_hd_wallet_real_cli.py
 
 A truly offline, single-file, runnable Bitcoin BIP39/BIP32/BIP44/BIP49/BIP84/BIP86 receiving-address tool.
-
+Please review the script to ensure it is correct, incorporating other tools as needed. 
+Thank you.
 Features:
 - Embeds the BIP39 English 2048-word list; does not use the network at runtime.
 - Forces 24 words when generating mnemonics, using secrets.token_bytes(32) for 256-bit CSPRNG entropy.
