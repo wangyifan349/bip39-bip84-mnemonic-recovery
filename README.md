@@ -333,7 +333,8 @@ The author is not responsible for misuse, loss of funds, incorrect recovery atte
 
 
 
-##Generate a 24-word BIP39 mnemonic and multiple wallet addresses:
+#Generate a 24-word BIP39 mnemonic and multiple wallet addresses:
+
 ```text
 python -c "from bip_utils import *; bip44_coins={'ETH':Bip44Coins.ETHEREUM,'DOGE':Bip44Coins.DOGECOIN,'BCH':Bip44Coins.BITCOIN_CASH,'DASH':Bip44Coins.DASH,'ZEC':Bip44Coins.ZCASH}; bip84_coins={'BTC':Bip84Coins.BITCOIN,'LTC':Bip84Coins.LITECOIN}; n=5; mnemonic=str(Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)); seed=Bip39SeedGenerator(mnemonic).Generate(); print('='*80); print('MNEMONIC 24 WORDS'); print('='*80); print(mnemonic); print('='*80); [print(f'\n{sym} BIP84\n'+'\n'.join([f'{i}: {ctx.PublicKey().ToAddress()} | priv={ctx.PrivateKey().Raw().ToHex()}' for i in range(n) for ctx in [Bip84.FromSeed(seed,coin).Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT).AddressIndex(i)]])) for sym,coin in bip84_coins.items()]; [print(f'\n{sym} BIP44\n'+'\n'.join([f'{i}: {ctx.PublicKey().ToAddress()} | priv={ctx.PrivateKey().Raw().ToHex()}' for i in range(n) for ctx in [Bip44.FromSeed(seed,coin).Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT).AddressIndex(i)]])) for sym,coin in bip44_coins.items()]"
 
